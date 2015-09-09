@@ -19,7 +19,7 @@ Optional environment variables::
     PORT         # A port number
 
 
-Restful endpoints (offers GET/POST/PATCH/DELETE/OPTIONS) ::
+Restful endpoints (offers GET/POST) ::
 
     /api/manufacturer
     /api/device
