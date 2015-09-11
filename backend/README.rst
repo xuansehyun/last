@@ -1,7 +1,7 @@
 Get started
 ~~~~~~~~~~~
 
-Setup environemnt::
+Setup environment::
 
     $ pip install -r requirements.txt
 
