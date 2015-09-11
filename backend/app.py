@@ -60,6 +60,7 @@ manager = flask.ext.restless.APIManager(app, flask_sqlalchemy_db=db)
 
 def add_cors_headers(response):
     response.headers['Access-Control-Allow-Origin'] = '*'
+    response.headers['Access-Control-Allow-Headers'] = '*'
     return response
 
 for model in [Manufacturer, Device, MacAddress]:
