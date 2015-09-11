@@ -25,7 +25,7 @@ export default class InitializeContainer extends Component {
     Promise.all([
       manufactureList(),
       deviceList(),
-      ]).then(([manufactures, devices]) => {
+    ]).then(([manufactures, devices]) => {
       this.props.onDataLoaded({
         manufactures,
         devices,

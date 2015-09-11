@@ -14,8 +14,8 @@ export default class NewDeviceModalContainer extends Component {
 
   static propTypes = {
     onRequestClose: PropTypes.func.isRequired,
-    onDeviceCreated: PropTypes.func.isRequired,
     manufactureId: PropTypes.string.isRequired,
+    onDeviceCreated: PropTypes.func.isRequired,
   }
 
   static contextTypes = {

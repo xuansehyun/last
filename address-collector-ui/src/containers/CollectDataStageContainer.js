@@ -23,7 +23,6 @@ export default class CollectDataStageContainer extends Component {
     manufactures: PropTypes.array.isRequired,
     devices: PropTypes.array.isRequired,
     stores: PropTypes.array.isRequired,
-    brandDeviceList: PropTypes.array.isRequired,
     countries: PropTypes.array.isRequired,
     onDeviceCreated: PropTypes.func.isRequired,
     onHome: PropTypes.func.isRequired,
@@ -59,6 +58,9 @@ export default class CollectDataStageContainer extends Component {
     if (!MAC_ADDRESS_REGEXP.test(value)) {
           errors.macAddress = "Incorrect Mac Address format!";
       }
+    else {
+      errors.macAddress = "Valid Mac Address";
+    }
     this.setState({
         errors,
     });
@@ -164,7 +166,7 @@ export default class CollectDataStageContainer extends Component {
         device: newDevice.id,
       },
       ModalContainer: null,
-      devicesOverrode: [newDeviceName],
+      devicesOverrode: [newDevice],
     });
   }
 
@@ -181,13 +183,6 @@ export default class CollectDataStageContainer extends Component {
         />
       );
     }
-
-    //const {brandDeviceList} = this.props;
-    
-    //const manufactures = brandDeviceList.map(({brand}) => brand);
-    //const selectedBrand = brandDeviceList
-    //  .filter(({id}) => `${ id }` === this.state.deviceObj.manufacture) [0];
-    //const devices = selectedBrand && selectedBrand.devices || [];
 
     const devices = this.props.devices.filter(({manufacturer_id}) => {
       return `${ manufacturer_id }` === this.state.deviceObj.manufacture;

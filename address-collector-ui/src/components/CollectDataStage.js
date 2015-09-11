@@ -13,10 +13,6 @@ import {
   RaisedButton,
 } from "material-ui";
 
-//import {
-//  default as MobileDetect,
-//} from "mobile-detect";
-
 const rowContainerStyle = {
   display: "flex",
   flexFlow: "column nowrap",
@@ -57,8 +53,21 @@ function normalizeMacAddress (rawMacAddress) {
   return rawMacAddress.replace(/[-:]/g, "");  
 }
 
+var MobileDetect = require('mobile-detect');
+//var md = new MobileDetect(req.headers['user-agent']);
+var md = new MobileDetect(
+    'Mozilla/5.0 (Linux; U; Android 4.0.3; en-in; SonyEricssonMT11i' +
+    ' Build/4.1.A.0.562) AppleWebKit/534.30 (KHTML, like Gecko)' +
+    ' Version/4.0 Mobile Safari/534.30');
+var isMobile;
 const MAC_ADDRESS_REGEXP = /^([0-9A-F]{2}[:-]){5}([0-9A-F]{2})$/;
 var isM = true;
+/*if (!md.mobile()) {
+  isM = true;
+} else {
+  isM = false;
+} */
+
 const MAC_ADDRESS_FORMATTED_SEPARATER = "-";
   
 function formatMacAddress (macAddress) {
@@ -112,7 +121,7 @@ export default class CollectDataStage extends Component {
     this.props.onHome();
   }
 
-    renderMobileDeviceRow() {
+  renderMobileDeviceRow() {
     const {deviceObj, errors} = this.props;
 
     if (deviceObj.manufacture) {
@@ -141,9 +150,10 @@ export default class CollectDataStage extends Component {
     }
   }
 
-   renderDesktopDeviceRow() {
+  renderDesktopDeviceRow() {
     const {deviceObj, errors} = this.props;
     const deviceItems = this.props.devices.map(it => ({id: it.id,text: it.name}));
+
     if (deviceObj.manufacture) {
       return (
         <div style = {{...rowStyle, ...columnContainerStyle}}>
@@ -151,6 +161,7 @@ export default class CollectDataStage extends Component {
             value={deviceObj.device}
             valueMember="id"
             onChange={this.handleChange.bind(this, "device")}
+            style ={{width: '255px'}}
             errorText={errors.device}
             hintText="Select A Device"
             menuItems={deviceItems}
@@ -177,6 +188,7 @@ export default class CollectDataStage extends Component {
         <select
           value={deviceObj.manufacture}
           onChange={this.handleChange.bind(this, "manufacture")}
+          style ={{width: '255px'}}
         >
           <option>Select A Manufacture</option>
           {this.props.manufactures.map(it => <option key={it.id} value={it.id}>{it.name}</option>)}
@@ -254,24 +266,11 @@ export default class CollectDataStage extends Component {
     );
   }
 
-/*  getIsM () {
-    if (typeof window === "undefined") {
-      return false;
-    } else {
-      return new MobileDetect(window.navigator.userAgent).mobile();
-    }
-  }*/
-
   render () {
-    //const manufactureItems = this.props.manufactures.map(it => ({text: it}));
-    //const deviceItems = this.props.devices.map(it => ({text: it}));
     const countryItems = this.props.countries.map(it => ({text: it}));
     const storeItems = this.props.stores.map(it => ({text: it}));
     const {deviceObj,errors} = this.props;
-    //const {errors} = this.props;
-    
-    //const isM = this.getIsM();
-
+    //var isM = true;
     return (
       <div style = {rowContainerStyle}>
         {isM ? this.renderMobileManufactureRow() : this.renderDesktopManufactureRow()}
@@ -299,21 +298,8 @@ export default class CollectDataStage extends Component {
           </IconButton>
         </div>
 
-        /*<div style = {{...rowStyle, ...columnContainerStyle}}>
-          <SelectField
-            value={deviceObj.country}
-            valueMember="text"
-            onChange={this.handleChange.bind(this, "country")}
-            errorText={errors.country}
-            hintText="Select Your Country"
-            menuItems={countryItems}
-          />
-          <div style={{width: "48px", height: "48px"}} />
-        </div>
-        */
-    
         {isM ? this.renderMobileCountryRow() : this.renderDesktopCountryRow()} 
-
+ 
         <div style = {{...rowStyle, ...columnContainerStyle}}>
           <SelectField
             value={deviceObj.store}
